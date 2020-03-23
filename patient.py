@@ -1,0 +1,46 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# データの読み込み
+data = pd.read_csv('patient.csv')
+train_x = np.arange(len(data))
+train_y = np.array(data['infected_persons'])
+
+# 標準化
+mu = train_x.mean()
+sigma = train_x.std()
+standardize = lambda x: (x - mu) / sigma
+train_z = standardize(train_x)
+
+# パラメータの初期化
+theta = np.random.rand(4)
+
+# データの行列を作成
+to_matrix = lambda x: np.vstack([np.ones(x.shape[0]), x, x ** 2, x ** 3]).T
+X = to_matrix(train_z)
+
+# 予測関数
+f = lambda x: np.dot(x, theta)
+# 平均二乗誤差
+MSE = lambda x, y: (1 / x.shape[0]) * np.sum((y - f(X)) ** 2)
+
+# 学習率
+ETA = 1e-3
+# 誤差の差分
+diff = 1
+# 学習
+errors = [MSE(X, train_y)]
+while diff > 1e-2:
+    p = np.random.permutation(X.shape[0])
+    for x, y in zip(X[p,:], train_y[p]):
+        theta = theta - ETA * (f(x)- y) * x
+    errors.append(MSE(X, train_y))
+    diff = errors[-2] - errors[-1]    
+
+print(f(to_matrix(np.array([standardize(len(train_z))]))))
+x = np.linspace(-2,2,100)
+plt.plot(train_z, train_y, label='patients')
+plt.plot(x, f(to_matrix(x)), label='fθ(x)')
+plt.legend()
+plt.show()
