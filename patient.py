@@ -14,6 +14,7 @@ standardize = lambda x: (x - mu) / sigma
 train_z = standardize(train_x)
 
 # パラメータの初期化
+np.random.seed(seed=0)
 theta = np.random.rand(4)
 
 # データの行列を作成
