@@ -33,9 +33,12 @@ diff = 1
 # 学習
 errors = [MSE(X, train_y)]
 while diff > 1e-2:
+    # 確率的勾配降下法
     p = np.random.permutation(X.shape[0])
     for x, y in zip(X[p,:], train_y[p]):
         theta = theta - ETA * (f(x)- y) * x
+    # # 最急降下法
+    # theta = theta - ETA * np.dot(f(X) - train_y, X)
     errors.append(MSE(X, train_y))
     diff = errors[-2] - errors[-1]    
 
