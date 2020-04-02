@@ -15,11 +15,12 @@ to_matrix = lambda x: np.vstack([np.ones(x.shape[0]), x[:, 0], x[:, 0] ** 2, x[:
 Z = to_matrix(X1)
 
 from sklearn.linear_model import LinearRegression
-rf = LinearRegression()
-rf.fit(Z, y)
+lr = LinearRegression()
+lr.fit(Z, y)
 
+print('predict: ', lr.predict(to_matrix(np.array([(len(X) - mu) / sigma])[:, np.newaxis])))
 x = np.arange(1, 75)[:, np.newaxis]
 x = (x - mu) / sigma
 plt.plot(X1, y)
-plt.plot(x, rf.predict(to_matrix(x)))
+plt.plot(x, lr.predict(to_matrix(x)))
 plt.show()
