@@ -2,25 +2,25 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 
 # データの読み込み
 data = pd.read_csv('patient.csv')
 X = np.arange(len(data))[:,np.newaxis]
-mu = X.mean()
-sigma = X.std()
-X1 = (X - mu) / sigma
 y = np.array(data['infected_persons'])
 
-to_matrix = lambda x: np.vstack([np.ones(x.shape[0]), x[:, 0], x[:, 0] ** 2, x[:, 0] ** 3]).T
-Z = to_matrix(X1)
+scaler = StandardScaler().fit(X)
+X_scaled = scaler.transform(X)
+poly = PolynomialFeatures(degree=3).fit(X_scaled)
+X1 = poly.transform(X_scaled)
 
 from sklearn.linear_model import LinearRegression
-lr = LinearRegression()
-lr.fit(Z, y)
+lr = LinearRegression().fit(X1, y)
 
-print('predict: ', lr.predict(to_matrix(np.array([(len(X) - mu) / sigma])[:, np.newaxis])))
-x = np.arange(1, 75)[:, np.newaxis]
-x = (x - mu) / sigma
-plt.plot(X1, y)
-plt.plot(x, lr.predict(to_matrix(x)))
+print(f'predict: {lr.predict(poly.transform(scaler.transform(np.array([len(data) + 1])[:, np.newaxis])))}')
+
+x = np.arange(0, 80)[:, np.newaxis]
+x1 = poly.transform(scaler.transform(x))
+plt.plot(X[:, 0], y)
+plt.plot(x[:, 0], lr.predict(x1))
 plt.show()

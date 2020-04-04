@@ -42,9 +42,9 @@ while diff > 1e-2:
     errors.append(MSE(X, train_y))
     diff = errors[-2] - errors[-1]    
 
-print('predict: ', f(to_matrix(np.array([standardize(len(train_z))]))))
-x = np.linspace(-2,2,100)
-plt.plot(train_z, train_y, label='patients')
-plt.plot(x, f(to_matrix(x)), label='fθ(x)')
+print('predict: ', f(to_matrix(np.array([standardize(len(data))]))))
+x = np.linspace(0, len(data) + 5, 100)
+plt.plot(train_x, train_y, label='patients')
+plt.plot(x, f(to_matrix(standardize(x))), label='fθ(x)')
 plt.legend()
 plt.show()
