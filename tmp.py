@@ -11,15 +11,16 @@ y = np.array(data['infected_persons'])
 
 scaler = StandardScaler().fit(X)
 X_scaled = scaler.transform(X)
-poly = PolynomialFeatures(degree=3).fit(X_scaled)
+poly = PolynomialFeatures(degree=5).fit(X_scaled)
 X1 = poly.transform(X_scaled)
+print(poly.get_feature_names())
 
-from sklearn.linear_model import LinearRegression
-lr = LinearRegression().fit(X1, y)
+from sklearn.linear_model import Ridge
+lr = Ridge(alpha=1).fit(X1, y)
 
-print(f'predict: {lr.predict(poly.transform(scaler.transform(np.array([len(data) + 1])[:, np.newaxis])))}')
+print(f'predict: {lr.predict(poly.transform(scaler.transform(np.array([len(data)])[:, np.newaxis])))}')
 
-x = np.arange(0, 80)[:, np.newaxis]
+x = np.arange(0, len(data) + 5)[:, np.newaxis]
 x1 = poly.transform(scaler.transform(x))
 plt.plot(X[:, 0], y)
 plt.plot(x[:, 0], lr.predict(x1))

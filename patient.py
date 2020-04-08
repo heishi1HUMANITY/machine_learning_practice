@@ -15,10 +15,10 @@ train_z = standardize(train_x)
 
 # パラメータの初期化
 np.random.seed(seed=0)
-theta = np.random.rand(4)
+theta = np.random.rand(6)
 
 # データの行列を作成
-to_matrix = lambda x: np.vstack([np.ones(x.shape[0]), x, x ** 2, x ** 3]).T
+to_matrix = lambda x: np.vstack([np.ones(x.shape[0]), x, x ** 2, x ** 3, x**4, x**5]).T
 X = to_matrix(train_z)
 
 # 予測関数
