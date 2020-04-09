@@ -13,12 +13,11 @@ scaler = StandardScaler().fit(X)
 X_scaled = scaler.transform(X)
 poly = PolynomialFeatures(degree=5).fit(X_scaled)
 X1 = poly.transform(X_scaled)
-print(poly.get_feature_names())
 
 from sklearn.linear_model import Ridge
 lr = Ridge(alpha=1).fit(X1, y)
 
-print(f'predict: {lr.predict(poly.transform(scaler.transform(np.array([len(data)])[:, np.newaxis])))}')
+print(f'prediction: {lr.predict(poly.transform(scaler.transform(np.array([len(data)])[:, np.newaxis])))}')
 
 x = np.arange(0, len(data) + 5)[:, np.newaxis]
 x1 = poly.transform(scaler.transform(x))
