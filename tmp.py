@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 # データの読み込み
 data = pd.read_csv('patient.csv')
 X = np.arange(len(data))[:,np.newaxis]
-y = np.array(data['infected_persons'])
+y = np.array(data['total_confirmed_cases'])
 
 # 日付の追加
 day = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'] 

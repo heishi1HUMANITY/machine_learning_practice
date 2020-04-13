@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # データの読み込み
 data = pd.read_csv('patient.csv')
 train_x = np.arange(len(data))
-train_y = np.array(data['infected_persons'])
+train_y = np.array(data['total_confirmed_cases'])
 
 # 標準化
 mu = train_x.mean()
