@@ -23,9 +23,9 @@ pipe = make_pipeline(StandardScaler(), PolynomialFeatures(), Lasso(max_iter=1000
 # GridSearch
 param_grid = {
     'polynomialfeatures__degree': [1, 2, 3, 4, 5],
-    'lasso__alpha': [0.001, 0.01, 0.1, 1, 10]
+    'lasso__alpha': [0.001, 0.01, 0.1, 1, 10, 20, 30, 40, 50]
 }
-grid = GridSearchCV(pipe, param_grid, cv=5, n_jobs=-1, iid=True)
+grid = GridSearchCV(pipe, param_grid, cv=5, n_jobs=-1)
 grid.fit(X, y)
 
 print(f'best params: {grid.best_params_}')
